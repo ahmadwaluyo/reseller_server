@@ -4,6 +4,17 @@ const { encrypt } = require('../helpers/bcrypt');
 module.exports = (sequelize, DataTypes) => {
   class User extends sequelize.Sequelize.Model {}
   User.init({
+    email: {
+      type: DataTypes.STRING,
+      validate: {
+        isEmail: true
+      },
+      unique: {
+        args: true,
+        msg: 'Email already registered'
+      },
+      allowNull: false
+    },
     username: {
       type: DataTypes.STRING,
       allowNull: false
@@ -22,7 +33,8 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       defaultValue: 'reseller'
     },
-    phone_number: DataTypes.STRING
+    phone_number: DataTypes.STRING,
+    address: DataTypes.STRING
   }, {
     hooks: {
       beforeCreate: (User, options) => {

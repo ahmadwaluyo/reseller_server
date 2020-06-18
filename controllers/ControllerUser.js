@@ -4,21 +4,25 @@ const { decrypt } = require('../helpers/bcrypt');
 
 class ControllerUser {
     static login (req, res, next) {
-        const { username, password } = req.body;
+        console.log('masuk controller login');
+        const { email, username, password } = req.body;
         User.findOne({
             where: {
-                username
+                email : email
             }
         })
             .then(foundUser => {
                 const payload = {
                     id: foundUser.id,
+                    email: foundUser.email,
                     username: foundUser.username,
-                    phone_number: foundUser.phone_number
+                    phone_number: foundUser.phone_number,
+                    address: foundUser.address,
                 }
                 const token = generateToken(payload);
                 if (foundUser) {
                     let verify = decrypt(password, foundUser.password);
+                    console.log(verify, 'ini verify');
                     if (verify) {
                         return res.status(200).json(token)
                     } else {
@@ -35,6 +39,7 @@ class ControllerUser {
                 }
             })
             .catch(err => {
+                console.log('error login',err);
                 return next({
                     name: 'NotFound',
                     errors: 'User Not found'
@@ -43,10 +48,11 @@ class ControllerUser {
     }
 
     static register (req, res, next) {
-        const { username, password, phone_number } = req.body;
-        let created = { username, password, phone_number };
+        const { email, username, password, phone_number, address } = req.body;
+        let created = { email, username, password, phone_number, address };
         User.findOne({
             where: {
+                email,
                 username
             }
         })
@@ -63,8 +69,10 @@ class ControllerUser {
             .then(newUser => {
                 let payload = {
                     id: newUser.dataValues.id,
+                    email: newUser.dataValues.email,
                     username: newUser.dataValues.username,
-                    phone_number: newUser.dataValues.phone_number
+                    phone_number: newUser.dataValues.phone_number,
+                    address: newUser.dataValues.address,
                 }
                 return res.status(201).json(payload);
             })
