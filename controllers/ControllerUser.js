@@ -19,7 +19,8 @@ class ControllerUser {
                     username: foundUser.username,
                     phone_number: foundUser.phone_number,
                     address: foundUser.address,
-                    roles: foundUser.roles
+                    roles: foundUser.roles,
+                    business: foundUser.business
                 }
                 const token = generateToken(payload);
                 if (foundUser) {
