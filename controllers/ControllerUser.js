@@ -52,12 +52,11 @@ class ControllerUser {
     }
 
     static register (req, res, next) {
-        const { email, username, password, phone_number, address } = req.body;
-        let created = { email, username, password, phone_number, address };
+        const { email, username, password, phone_number, address, business } = req.body;
+        let created = { email, username, password, phone_number, address, business };
         User.findOne({
             where: {
                 email,
-                username
             }
         })
             .then (foundUser => {
@@ -71,19 +70,24 @@ class ControllerUser {
                 }
             })
             .then(newUser => {
-                let payload = {
-                    id: newUser.dataValues.id,
-                    email: newUser.dataValues.email,
-                    username: newUser.dataValues.username,
-                    phone_number: newUser.dataValues.phone_number,
-                    address: newUser.dataValues.address,
-                }
-                return res.status(201).json(payload);
+                return res.status(201).json({
+                    message: 'Successfully create mitra'
+                });
             })
             .catch(err => {
                 return next(err)
             })
 
+    }
+
+    static findAllUser (req, res, next) {
+        User.findAll()
+            .then(foundUser => {
+                return res.status(200).json(foundUser);
+            })
+            .catch(err => {
+                return next(err);
+            })
     }
 }
 
