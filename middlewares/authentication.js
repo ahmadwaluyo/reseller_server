@@ -7,7 +7,7 @@ module.exports = (req, res, next) => {
             req.decoded = verifyToken(req.headers.token);
             User.findOne({
                 where: {
-                    username: req.decoded.username
+                    email: req.decoded.email
                 }
             })
                 .then(result => {

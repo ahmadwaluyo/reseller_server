@@ -12,6 +12,7 @@ class ControllerUser {
             }
         })
             .then(foundUser => {
+                console.log('harusnya sukses');
                 const payload = {
                     id: foundUser.id,
                     email: foundUser.email,
@@ -22,9 +23,11 @@ class ControllerUser {
                 const token = generateToken(payload);
                 if (foundUser) {
                     let verify = decrypt(password, foundUser.password);
-                    console.log(verify, 'ini verify');
                     if (verify) {
-                        return res.status(200).json(token)
+                        return res.status(200).json({
+                            token,
+                            data: payload
+                        })
                     } else {
                         return next({
                             name: 'BadRequest',
@@ -39,7 +42,6 @@ class ControllerUser {
                 }
             })
             .catch(err => {
-                console.log('error login',err);
                 return next({
                     name: 'NotFound',
                     errors: 'User Not found'
