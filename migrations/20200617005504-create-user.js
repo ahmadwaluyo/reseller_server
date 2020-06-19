@@ -26,6 +26,9 @@ module.exports = {
       address: {
         type: Sequelize.STRING
       },
+      business: {
+        type: Sequelize.STRING
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

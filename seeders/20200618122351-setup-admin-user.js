@@ -8,6 +8,7 @@ const data = [{
     "phone_number": '092830918309',
     "roles" : "admin",
     "address": "Jakarta",
+    "business": "owner",
     "createdAt" : new Date(),
     "updatedAt" : new Date()
 }]

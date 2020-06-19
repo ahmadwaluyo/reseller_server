@@ -17,6 +17,10 @@ module.exports = (sequelize, DataTypes) => {
     },
     username: {
       type: DataTypes.STRING,
+      unique: {
+        args: true,
+        msg: 'Email already registered'
+      },
       allowNull: false
     },
     password: {
@@ -34,7 +38,8 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: 'reseller'
     },
     phone_number: DataTypes.STRING,
-    address: DataTypes.STRING
+    address: DataTypes.STRING,
+    business: DataTypes.STRING
   }, {
     hooks: {
       beforeCreate: (User, options) => {
