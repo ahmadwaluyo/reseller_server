@@ -1,7 +1,7 @@
 const { User } = require('../models');
 const { generateToken } = require('../helpers/jwt');
 const { decrypt } = require('../helpers/bcrypt');
-// const kickbox = require('kickbox').client(process.env.ID_KICKBOX).kickbox();
+const kickbox = require('kickbox').client(process.env.ID_KICKBOX).kickbox();
 
 class ControllerUser {
     static login (req, res, next) {
@@ -76,9 +76,9 @@ class ControllerUser {
             })
             .then(newUser => {
                 // kickbox.verify(newUser.email, function (err, response) {
-                        //     console.log('ini kickbox');
-                        //     console.log(response.body);
-                        // });
+                //     console.log('ini kickbox');
+                //     console.log(response.body);
+                // });
                 return res.status(201).json({
                     message: 'Successfully create mitra'
                 });
@@ -138,6 +138,17 @@ class ControllerUser {
                 return res.status(200).json({
                     message: 'Success delete user'
                 })
+            })
+            .catch(err => {
+                return next(err)
+            })
+    }
+
+    static getUserById(req, res, next) {
+        const { id } = req.params;
+        User.findByPk(id)
+            .then(foundUser => {
+                res.status(200).json(foundUser)
             })
             .catch(err => {
                 return next(err)

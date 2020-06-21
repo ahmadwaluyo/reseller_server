@@ -1,16 +1,12 @@
 const router = require('express').Router();
-const ControllerUser = require('../controllers/ControllerUser');
+const user = require('./users');
+const product = require('./products');
 const handleError = require('../middlewares/handlleError');
-const authentication = require('../middlewares/authentication');
-const authorization = require('../middlewares/authorization');
+const ControllerUser = require('../controllers/ControllerUser');
 
 router.post('/', ControllerUser.login);
-router.use(authentication);
-router.use(authorization);
-router.get('/', ControllerUser.findAllUser);
-router.post('/register', ControllerUser.register);
-router.patch('/edit/:id', ControllerUser.editUser);
-router.delete('/delete/:id', ControllerUser.deleteUser);
+router.use('/users', user);
+router.use('/products', product);
 router.use(handleError);
 
 module.exports = router;
