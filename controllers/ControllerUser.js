@@ -1,7 +1,6 @@
 const { User } = require('../models');
 const { generateToken } = require('../helpers/jwt');
 const { decrypt } = require('../helpers/bcrypt');
-const kickbox = require('kickbox').client(process.env.ID_KICKBOX).kickbox();
 
 class ControllerUser {
     static login (req, res, next) {
@@ -75,10 +74,6 @@ class ControllerUser {
                 }
             })
             .then(newUser => {
-                // kickbox.verify(newUser.email, function (err, response) {
-                //     console.log('ini kickbox');
-                //     console.log(response.body);
-                // });
                 return res.status(201).json({
                     message: 'Successfully create mitra'
                 });

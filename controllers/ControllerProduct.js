@@ -1,9 +1,15 @@
 const { Product } = require('../models');
+const rupiasMaker = require('../helpers/rupiasMaker');
 
 class ControllerProduct {
     static findAllProduct(req, res, next) {
         Product.findAll()
             .then(data => {
+                if (data.length > 0) {
+                    data.map(el => {
+                        el.price = rupiasMaker(el.price);
+                    })
+                }
                 return res.status(200).json(data)
             })
             .catch(err => {
